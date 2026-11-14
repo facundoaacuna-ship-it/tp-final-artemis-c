@@ -32,12 +32,12 @@ El sistema simula por consola el ascenso y propulsión del cohete **Space Launch
 ```text
 tp-final-artemis-c/
 ├── main.c            # Menú principal interactivo, limpieza de pantalla y flujo general
-├── simulador.h       # Constantes (#define), structs (ParametrosMision, ResultadosSimulacion) y prototipos[cite: 4]
-├── simulador.c       # Lógica física, cálculos cinemáticos, barra ASCII y exportación a TXT[cite: 4]
-├── validaciones.h    # Prototipos de lectura segura[cite: 4]
+├── simulador.h       # Constantes (#define), structs (ParametrosMision, ResultadosSimulacion) y prototipos
+├── simulador.c       # Lógica física, cálculos cinemáticos, barra ASCII y exportación a TXT
+├── validaciones.h    # Prototipos de lectura segura
 ├── validaciones.c    # Lectura blindada mediante fgets() + sscanf() para evitar cuelgues
 └── README.md         # Documentación del proyecto y registro de IA
-
+´´´
 ## 🤖 Registro Obligatorio de Inteligencia Artificial (Bitácora de IA)
 De acuerdo con los lineamientos de transparencia de la cátedra, se documenta el uso de herramientas de asistencia de IA Generativa durante el desarrollo del proyecto:
 
