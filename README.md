@@ -28,16 +28,18 @@ El sistema simula por consola el ascenso y propulsión del cohete **Space Launch
 
 ---
 
-## 🏗️ Arquitectura Modular del Proyecto
-```text
+## 🏛️ Arquitectura Modular del Proyecto
+
 tp-final-artemis-c/
 ├── main.c            # Menú principal interactivo, limpieza de pantalla y flujo general
 ├── simulador.h       # Constantes (#define), structs (ParametrosMision, ResultadosSimulacion) y prototipos
 ├── simulador.c       # Lógica física, cálculos cinemáticos, barra ASCII y exportación a TXT
 ├── validaciones.h    # Prototipos de lectura segura
-├── validaciones.c    # Lectura blindada mediante fgets() + sscanf() para evitar cuelgues
+├── validaciones.c    # Lectura blindada mediante fgets() y sscanf() para evitar cuelgues
 └── README.md         # Documentación del proyecto y registro de IA
-´´´
+
+---
+
 ## 🤖 Registro Obligatorio de Inteligencia Artificial (Bitácora de IA)
 De acuerdo con los lineamientos de transparencia de la cátedra, se documenta el uso de herramientas de asistencia de IA Generativa durante el desarrollo del proyecto:
 
@@ -52,3 +54,5 @@ De acuerdo con los lineamientos de transparencia de la cátedra, se documenta el
 3. **Verificación del Modelo Físico del SLS:**
    * *Uso:* Consulta teórica sobre la diferencia entre la aceleración neta del cohete respecto al suelo y la fuerza $g$ aparente sentida por la tripulación.
    * *Adaptación:* Se programaron métricas separadas en el motor físico (`calcularSimulacion`) para calcular tanto la relación cinemática como la fuerza normal fisiológica que experimentan los astronautas.
+
+   ---
