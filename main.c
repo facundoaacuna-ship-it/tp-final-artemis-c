@@ -1,22 +1,35 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "simulador.h"
 #include "validaciones.h"
 
+// Función para limpiar pantalla de forma portátil (Windows / Linux-Mac)
+void limpiarPantalla() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
 int main() {
     int opcion;
+    int usarKmH = 0; // 0 = m/s y metros, 1 = km/h y kilómetros
     
     do {
+        limpiarPantalla();
         printf("\n==========================================================\n");
         printf("     SIMULADOR DE MISIONES ARTEMIS - SLS (UTN FRRe)       \n");
         printf("==========================================================\n");
-        printf("1. Ejecutar Simulacion Oficial Artemis (Default)[cite: 2, 3]\n");
-        printf("2. Simulacion Personalizada con Validacion (Modo Ingeniero)[cite: 3]\n");
-        printf("3. Simulador de Vuelo por Pasos (Telemetria)[cite: 3]\n");
+        printf("1. Ejecutar Simulacion Oficial Artemis (Default)\n");
+        printf("2. Simulacion Personalizada con Validacion (Modo Ingeniero)\n");
+        printf("3. Simulador de Vuelo por Pasos (Telemetria y Barra ASCII)\n");
         printf("4. Cuestionario de Analisis Fisico (Modo Trivia)\n");
-        printf("5. Salir\n");
+        printf("5. Configuracion de Unidades (Actual: %s)\n", usarKmH ? "KM/H y Kilometros" : "M/S y Metros");
+        printf("6. Salir\n");
         printf("==========================================================\n");
         
-        opcion = leerEnteroSeguro("Seleccione una opcion (1-5): ");
+        opcion = leerEnteroSeguro("Seleccione una opcion (1-6): ");
         
         switch (opcion) {
             case 1: {
@@ -30,7 +43,9 @@ int main() {
                 };
                 ResultadosSimulacion r;
                 calcularSimulacion(p, &r);
-                mostrarReporte(r);
+                mostrarReporte(r, usarKmH);
+                printf("\nPresione Enter para continuar...");
+                getchar();
                 break;
             }
             case 2: {
@@ -38,7 +53,6 @@ int main() {
                 ParametrosMision p;
                 p.g = GRAVEDAD; 
                 
-                // Tarea 4.2 & 4.3: Validaciones estrictas de rangos físicos realistes
                 do {
                     p.a1 = leerFlotanteSeguro("  - Aceleracion 1ra fase a1 (> 0 m/s^2): ");
                     if (p.a1 <= 0) printf("  [ERROR] La aceleracion debe ser positiva.\n");
@@ -58,13 +72,15 @@ int main() {
                 do {
                     p.h_meta = leerFlotanteSeguro("  - Altitud objetivo h (m): ");
                     if (p.h_meta <= y1_aprox) {
-                        printf("  [ERROR] La altitud meta (%.1f m) debe ser mayor a la altitud de desacople SRB (%.1f m).\n", p.h_meta, y1_aprox);
+                        printf("  [ERROR] La altitud meta debe ser mayor a la altitud de desacople SRB (%.1f m).\n", y1_aprox);
                     }
                 } while (p.h_meta <= y1_aprox);
                 
                 ResultadosSimulacion r;
                 calcularSimulacion(p, &r);
-                mostrarReporte(r);
+                mostrarReporte(r, usarKmH);
+                printf("\nPresione Enter para continuar...");
+                getchar();
                 break;
             }
             case 3: {
@@ -76,18 +92,26 @@ int main() {
                     .g = GRAVEDAD
                 };
                 simularPasoAPaso(p);
+                printf("\nPresione Enter para continuar...");
+                getchar();
                 break;
             }
             case 4:
                 mostrarTriviaFisica();
+                printf("\nPresione Enter para continuar...");
+                getchar();
                 break;
             case 5:
+                usarKmH = !usarKmH; // Alterna entre 0 y 1
+                printf("\n[INFO] Unidades cambiadas exitosamente.\n");
+                break;
+            case 6:
                 printf("\nSaliendo del simulador de la mision Artemis. ¡Exitos en la defensa!\n");
                 break;
             default:
-                printf("\n[ERROR] Opcion no valida. Seleccione entre 1 y 5.\n");
+                printf("\n[ERROR] Opcion no valida. Seleccione entre 1 y 6.\n");
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 
     return 0;
 }
