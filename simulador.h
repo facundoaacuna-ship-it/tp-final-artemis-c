@@ -12,8 +12,6 @@
 #define H_OBJETIVO 160000.0 // Altitud de apagado de motores (m)[cite: 3]
 
 // --- ESTRUCTURAS DE DATOS ---
-
-// Estructura para almacenar los parámetros de la simulación
 typedef struct {
     double a1;      // Aceleración primera fase
     double t1;      // Tiempo de desacople SRB
@@ -22,22 +20,19 @@ typedef struct {
     double g;       // Aceleración de la gravedad
 } ParametrosMision;
 
-// Estructura para almacenar los resultados analíticos calculados
 typedef struct {
-    double v1;          // Velocidad al desacople SRB
-    double y1;          // Altitud recorrida al desacople SRB
-    double v2;          // Velocidad máxima al apagar motores
-    double h_max;       // Altitud máxima alcanzada en caída libre
-    double g_cinematica;// Múltiplo de aceleración cinemática (a1/g)
-    double g_aparente;  // Carga g fisiológica sentida por tripulación ((a1+g)/g)
+    double v1;          // Velocidad al desacople SRB[cite: 3]
+    double y1;          // Altitud recorrida al desacople SRB[cite: 3]
+    double v2;          // Velocidad máxima al apagar motores[cite: 3]
+    double h_max;       // Altitud máxima alcanzada en caída libre[cite: 3]
+    double g_cinematica;// Múltiplo de aceleración cinemática (a1/g)[cite: 3]
+    double g_aparente;  // Carga g fisiológica sentida por tripulación ((a1+g)/g)[cite: 3]
 } ResultadosSimulacion;
 
 // --- PROTOTIPOS DE FUNCIONES ---
-
-// Función que ejecuta los cálculos analíticos del Escenario 1
 void calcularSimulacion(ParametrosMision p, ResultadosSimulacion *r);
-
-// Función para mostrar el reporte de resultados por consola
 void mostrarReporte(ResultadosSimulacion r);
+void simularPasoAPaso(ParametrosMision p); // Tarea 3.5: Vuelo paso a paso
+void mostrarTriviaFisica();                 // Tarea 3.5: Cuestionario de análisis
 
 #endif

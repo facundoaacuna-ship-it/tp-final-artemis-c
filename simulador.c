@@ -2,27 +2,21 @@
 #include <math.h>
 #include "simulador.h"
 
-// Función que realiza todos los cálculos físicos del Escenario 1
 void calcularSimulacion(ParametrosMision p, ResultadosSimulacion *r) {
-    // 1. Fase 1: Desacople de los SRB (t1)
-    r->v1 = p.v0 + (p.a1 * p.t1);
-    r->y1 = p.y0 + (p.v0 * p.t1) + (0.5 * p.a1 * p.t1 * p.t1);
+    r->v1 = V0_INICIAL + (p.a1 * p.t1);
+    r->y1 = Y0_INICIAL + (V0_INICIAL * p.t1) + (0.5 * p.a1 * p.t1 * p.t1);
 
-    // 2. Fase 2: Desde el desacople hasta la altitud objetivo (h_meta)
     double delta_y2 = p.h_meta - r->y1;
     double v2_cuadrado = (r->v1 * r->v1) + (2.0 * p.a2 * delta_y2);
     r->v2 = sqrt(v2_cuadrado);
 
-    // 3. Escenario de falla / Caída libre a partir de h_meta con velocidad v2
     double delta_y_subida = (r->v2 * r->v2) / (2.0 * p.g);
     r->h_max = p.h_meta + delta_y_subida;
 
-    // 4. Aceleraciones y múltiplos de gravedad (g)
     r->g_cinematica = p.a1 / p.g;
     r->g_aparente = (p.a1 + p.g) / p.g;
 }
 
-// Función para mostrar el reporte analítico avanzado por consola
 void mostrarReporte(ResultadosSimulacion r) {
     printf("\n==========================================================\n");
     printf("        REPORTE DE TELEMETRIA - MISION ARTEMIS (SLS)      \n");
@@ -40,5 +34,51 @@ void mostrarReporte(ResultadosSimulacion r) {
     printf(" [FACTORES G] Carga Fisiologica de la Tripulacion:\n");
     printf("   - Aceleracion neta (a1 / g) : %.2f g\n", r.g_cinematica);
     printf("   - Carga G aparente (sentida): %.2f g\n", r.g_aparente);
+    printf("==========================================================\n");
+}
+
+// Tarea 3.5: Simulador de Vuelo por Pasos (telemetría secuencial cada 20 segundos)
+void simularPasoAPaso(ParametrosMision p) {
+    printf("\n==========================================================\n");
+    printf("       SIMULACION DE VUELO SECUENCIAL (PASO A PASO)       \n");
+    printf("==========================================================\n");
+    printf("  Tiempo (s) | Altitud (m)  | Rapidez (m/s) | Fase de Vuelo\n");
+    printf("----------------------------------------------------------\n");
+    
+    double t_actual = 0;
+    double dt = 20.0; // Intervalos de 20 segundos
+    
+    while (t_actual <= p.t1) {
+        double y = 0.5 * p.a1 * t_actual * t_actual;
+        double v = p.a1 * t_actual;
+        printf("  %9.1f  | %12.2f | %13.2f | Fase 1 (SRB)\n", t_actual, y, v);
+        t_actual += dt;
+    }
+    
+    // Simular tramo final hasta h_meta
+    double y1 = 0.5 * p.a1 * p.t1 * p.t1;
+    double v1 = p.a1 * p.t1;
+    double delta_y2 = p.h_meta - y1;
+    double t2_total = delta_y2 / (v1 + 100.0); // Estimación aproximada de tiempo en Fase 2
+    
+    printf("  %9.1f  | %12.2f | %13.2f | Desacople SRB\n", p.t1, y1, v1);
+    printf("  [INFO] Motores principales activos hasta h = %.1f m...\n", p.h_meta);
+    printf("==========================================================\n");
+}
+
+// Tarea 3.5: Cuestionario de Análisis Físico (Modo Trivia)
+void mostrarTriviaFisica() {
+    printf("\n==========================================================\n");
+    printf("          CUESTIONARIO DE ANALISIS FISICO (TRIVIA)        \n");
+    printf("==========================================================\n");
+    printf(" P1: ¿Por que la aceleracion sentida por la tripulacion\n");
+    printf("     es mayor que la aceleracion neta del cohete?\n");
+    printf(" R: Porque el asiento debe ejercer una fuerza normal (N)\n");
+    printf("    que soporte el peso de la persona (mg) y ademas le\n");
+    printf("    imprima la aceleracion de ascenso: N = m(a1 + g).\n");
+    printf("----------------------------------------------------------\n");
+    printf(" P2: ¿Que ley fisica explica el ascenso tras apagar motores?\n");
+    printf(" R: La 1ra Ley de Newton (Inercia) combinada con la conservacion\n");
+    printf("    de la energia, frenando progresivamente por la gravedad.\n");
     printf("==========================================================\n");
 }
