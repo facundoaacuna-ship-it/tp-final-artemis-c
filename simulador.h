@@ -34,5 +34,6 @@ void calcularSimulacion(ParametrosMision p, ResultadosSimulacion *r);
 void mostrarReporte(ResultadosSimulacion r, int usarKmH);
 void simularPasoAPaso(ParametrosMision p); // Tarea 3.5: Vuelo paso a paso
 void mostrarTriviaFisica();                 // Tarea 3.5: Cuestionario de análisis
+void exportarReporteTXT(ParametrosMision p, ResultadosSimulacion r);
 
 #endif

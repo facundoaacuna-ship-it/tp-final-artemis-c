@@ -89,3 +89,32 @@ void mostrarTriviaFisica() {
     printf(" R: La 1ra Ley de Newton (Inercia) y la conservacion de energia.\n");
     printf("==========================================================\n");
 }
+
+void exportarReporteTXT(ParametrosMision p, ResultadosSimulacion r) {
+    FILE *archivo = fopen("reporte_mision.txt", "w");
+    if (archivo == NULL) {
+        printf("  [ERROR] No se pudo generar el archivo reporte_mision.txt\n");
+        return;
+    }
+
+    fprintf(archivo, "==========================================================\n");
+    fprintf(archivo, "      REPORTE OFICIAL DE TELEMETRIA - ARTEMIS I (SLS)     \n");
+    fprintf(archivo, "==========================================================\n");
+    fprintf(archivo, "PARAMETROS DE ENTRADA:\n");
+    fprintf(archivo, " - Aceleracion Fase 1 (a1) : %.2f m/s^2\n", p.a1);
+    fprintf(archivo, " - Tiempo desacople (t1)   : %.2f s\n", p.t1);
+    fprintf(archivo, " - Aceleracion Fase 2 (a2) : %.2f m/s^2\n", p.a2);
+    fprintf(archivo, " - Altitud objetivo (h)    : %.2f m\n", p.h_meta);
+    fprintf(archivo, "----------------------------------------------------------\n");
+    fprintf(archivo, "RESULTADOS ANALITICOS:\n");
+    fprintf(archivo, " 1. Rapidez al desacople (v1) : %.2f m/s (%.2f km/h)\n", r.v1, r.v1 * 3.6);
+    fprintf(archivo, " 2. Altitud al desacople (y1) : %.2f m (%.2f km)\n", r.y1, r.y1 / 1000.0);
+    fprintf(archivo, " 3. Rapidez maxima (v2)       : %.2f m/s (%.2f km/h)\n", r.v2, r.v2 * 3.6);
+    fprintf(archivo, " 4. Altitud maxima falla      : %.2f m (%.2f km)\n", r.h_max, r.h_max / 1000.0);
+    fprintf(archivo, " 5. Aceleracion neta          : %.2f g\n", r.g_cinematica);
+    fprintf(archivo, " 6. Carga G aparente (sentida): %.2f g\n", r.g_aparente);
+    fprintf(archivo, "==========================================================\n");
+
+    fclose(archivo);
+    printf("\n[OK] Reporte exportado exitosamente a 'reporte_mision.txt'.\n");
+}

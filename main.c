@@ -44,6 +44,7 @@ int main() {
                 ResultadosSimulacion r;
                 calcularSimulacion(p, &r);
                 mostrarReporte(r, usarKmH);
+                exportarReporteTXT(p, r);
                 printf("\nPresione Enter para continuar...");
                 getchar();
                 break;
@@ -79,6 +80,7 @@ int main() {
                 ResultadosSimulacion r;
                 calcularSimulacion(p, &r);
                 mostrarReporte(r, usarKmH);
+                exportarReporteTXT(p, r);
                 printf("\nPresione Enter para continuar...");
                 getchar();
                 break;
